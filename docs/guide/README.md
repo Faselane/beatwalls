@@ -89,32 +89,37 @@ The Position is in the **center** of the Wall.
 Look at a different mapper (mma2) for those.
 :::
 
-## Hello Wall
+# Let's get started! 
 
-Now let`s create our first Structure
-Open Beatwalls and leave it running.
-Now write this into you .bw file.
+## Basic Properties
+
+Now let`s create our first Structure  
+Open Beatwalls and leave it running.  
+Inside your map folder, there should be a main.bw file now. Open it up and the wall mapping can begin! 
+We will start with some basic Structure Properties; Let's create a simple line first, that moves from right to left.
 
 ```yaml
-# creates a noodle Helix at beat 10
-Helix:
-    beat: 10
-    duration: 2
+# creates a Line at beat 4 that moves from bottom right to bottom left
+Line:
+    beat: 4
+    p0: 2, 0
+    p1: -2, 0
 ```
 
 Lets see what happens in this example
  * Lines starting with a `#` are comments and get ignored.
- * `Helix` creates a Helix 
- * `beat: 10` lets the helix on beat 10
- * `duration: 2` The complete helix will have a duration of 2
+ * `Line` creates a Line Structure 
+ * `beat: 4` makes the Line spawn in on Beat 4
+ * `p0: 2, 0` will make the Line start at X=2 and Y=0
+ * `p1: -2, 0` will make the Line end at X=-2 and Y=0
+ * We did not set a duration, thus the Structure will default to 1 beat
  
-Now open Beatsaber and reload the songs with **ctrl - r**.
-Start your map, and you should see the Structure appearing timed to beat 10
+Let's see how it turned out:
 
-![](images/helix.gif)
+![](images/LineTut1.png)
  
 ::: warning Timing
-Beatwalls automatically makes sure your Structures __apear__ and not zoom past you at the specific beat.
+Beatwalls automatically makes sure your Structures __appear__ and not zoom past you at the specific beat. This is why the Walls are located on beat 6 (Half Jump Duration is 2 for this example).
 ::: 
 
 ## Gotchas before we move on
@@ -123,4 +128,78 @@ Beatwalls automatically makes sure your Structures __apear__ and not zoom past y
 - Beatwalls does ***NOT*** care about spaces or tabs but it does care about newlines
 - Beatwalls works with BEATS (the thing in mm) and not TIMES, it takes care of the bpm changes found in mma2
 - Beatwalls has ***NO*** complete Syntax checker currently and might crash when something weird happens. Please write me when it does.
-    
+
+## Back to the Line
+
+ We will go for a different line now and we want to use more walls for it this time aswell.
+
+```yaml
+# creates a Line at beat 4 that moves from bottom right to top right
+Line:
+    beat: 4
+    p0: 2, 0
+    p1: 2, 3
+    amount: 20
+    duration: 1 #for later purposes
+```
+We now changed the Line's point-positions and forced it to use exactly 20 walls. The result:
+
+![](images/LineTut2.png)
+Pretty neat, right? Now let's use the mirror property and maybe also change the color of our structure's walls. We want to mirror on the Y Axis so we will use mirror value 2.
+
+```yaml
+# creates a Line at beat 4 that moves from bottom right to top right and mirrors it to the other side
+Line:
+    beat: 4
+    p0: 2, 0
+    p1: 2, 3
+    amount: 20
+    color: green
+    mirror: 2
+    duration: 1
+```
+Coloring can be done by typing an already [existing color](https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html) or by using RGB Values: __0-255,0-255,0-255__.  
+Our current result:
+
+![](images/LineTut3.png)
+
+::: tip Why mirror: 2?
+Mirroring allows to mirror on multiple axises and so on. If you want to know which value means what, you can hit up the References Documentation and check on the mirror property [here](https://spooky.moe/beatwalls/reference/beatwalls/structure.wallStructures/-line/). You will also find all other adjustable properties for each structure there.
+:::
+
+## Introducing Variables / Repeating Structures
+
+Now what do I do, if I want to have a structure repeat itself? It would be quiet the hassle to copy paste everytime wouldn't it? So this is where the property __repeat__ and it's corresponding variable __r__ come into play.  
+We will now make the structure repeat itself 4 times:
+
+```yaml
+Line:
+    beat: 4 + r #Each repeated Structure starts on a different beat
+    p0: 2, 0
+    p1: 2, 3
+    amount: 20
+    color: green
+    mirror: 2
+    duration: 1
+    repeat: 4
+```
+Repeating a structure on its own will cause all repetitions to start all at the same beat. To prevent this, we will tell __beat__ to adjust to our repetition amount. The value __r__ will increase by 1 for each repetition it has been through starting at r=0. (This variable can be used to adjust any kind of property, not just beat)  
+We now get this: 
+![](images/LineTut4.png)
+
+Now what will happen if we change our structure's __duration__? Simply adding __r__ to the beat will not work anymore because our structures will be interfering with eachother again. To prevent this issue __duration__ also has a corresponding variable __d__.  
+To fix our issue we simply type the following:
+
+```yaml
+Line:
+    beat: 4 + r*d #r will now increase by the value of duration
+    p0: 2, 0
+    p1: 2, 3
+    amount: 20
+    color: green
+    mirror: 2
+    duration: 2
+    repeat: 4
+```
+And our final result looks like this:
+![](images/LineTut5.png)

@@ -203,3 +203,60 @@ Line:
 ```
 And our final result looks like this:
 ![](images/LineTut5.png)
+
+:::tip Reminder
+As you can probably already tell, these were just a small amount of property changes that you can do with beatwalls. We will go into more advanced changes later in the guide but if you are already curious: You can navigate through all structures and their properties [here](https://spooky.moe/beatwalls/reference/beatwalls/structure.wallStructures/)
+:::
+
+# Structures
+Beatwalls doesn't just allow you to place single lines of walls, you can choose from a bigger list of available structures and also create your own! In this segment we will go over all the available Structures, how they look and what key-properties you will need for them to get working.
+
+## Wall
+
+Pretty self explanatory actually, this Structure is basically just a single wall. You will determine its location by putting X,Y,Z values for p0 and p1 as the corners of the wall. Remember that the value of Z will count as amount of beats.  
+Example:
+```yaml
+Wall:
+    beat: 4
+    p0: 0, 0, 0
+    p1: -2, 3, 1
+```
+![](images/WallTut.png)
+
+## Line
+
+We already discussed this one in the [Basic Properties](#basic-properties) part of the Guide but just for completion: A Line Structure will create a line of walls beginning at p0: X,Y and ending at p1: X,Y. The Z value will be determined by setting a duration (defaults to 1).
+
+## Curve
+
+Curve will create a curve of walls that is running through all given points. You can set 8 specific points max but you will have to put at least 2 (even tho that will result in a Line).  
+Our example here will create a bouncy one:
+```yaml
+Curve:
+    beat: 4
+    p0: 2, 0
+    p1: 2, 3
+	p2: 2, 0
+	amount: 20
+```
+![](images/CurveTut.png)
+
+## BezierCurve
+
+Now this is a more complex Curve. It is defined by 4 points exactly. The exact behavior of a Bezier Curve can be simulated over this [Website](https://www.desmos.com/calculator/cahqdxeshd). The points for this curve act as the following:  
+__p0__: Start of the Curve  
+__p1__: First stretching-point / manipulates in favor of p0 (stretches curve into its direction)  
+__p2__: Second stretching-point / manipulates in favor of p3 (stretches curve into its direction)  
+__p3__: End of the Curve  
+The Z value of the stretching point will be exactly inbetween starting and ending point (The Z value will hopefully be adjustable in the future again).  
+Using this Curve allows for cool rising effects. In this example we will go for a curve that slowly starts rising but also slows down on approaching its ending point:
+```yaml
+BezierCurve:
+    beat: 4
+    p0: 2, 0
+    p1: 2, 0
+	p2: 2, 3
+    p3: 2, 3
+	amount: 20
+```
+![](images/BezCurveTut.png)

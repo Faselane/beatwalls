@@ -236,8 +236,8 @@ Curve:
     beat: 4
     p0: 2, 0
     p1: 2, 3
-	p2: 2, 0
-	amount: 20
+    p2: 2, 0
+    amount: 20
 ```
 ![](images/CurveTut.png)
 
@@ -255,8 +255,8 @@ BezierCurve:
     beat: 4
     p0: 2, 0
     p1: 2, 0
-	p2: 2, 3
+    p2: 2, 3
     p3: 2, 3
-	amount: 20
+    amount: 20
 ```
 ![](images/BezCurveTut.png)

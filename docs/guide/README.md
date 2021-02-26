@@ -248,7 +248,7 @@ __p0__: Start of the Curve
 __p1__: First stretching-point / manipulates in favor of p0 (stretches curve into its direction)  
 __p2__: Second stretching-point / manipulates in favor of p3 (stretches curve into its direction)  
 __p3__: End of the Curve  
-The Z value of the stretching point will be exactly inbetween starting and ending point (The Z value will hopefully be adjustable in the future again).  
+The Z value of the stretching points will be 1/3 of the duration for __p1__ and 2/3 of the duration for __p2__ (The Z value might be adjustable in the future again).  
 Using this Curve allows for cool rising effects. In this example we will go for a curve that slowly starts rising but also slows down on approaching its ending point:
 ```yaml
 BezierCurve:
